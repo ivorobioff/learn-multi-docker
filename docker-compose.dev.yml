@@ -7,7 +7,9 @@ services:
   redis:
     image: redis:latest
   api:
-    image: ivorobioff/complex-server
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./server
     volumes:
       - /app/node_modules
       - ./server:/app
@@ -23,12 +25,16 @@ services:
       - redis
       - postgres
   client:
-    image: ivorobioff/complex-client
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
     volumes:
       - /app/node_modules
       - ./client:/app
   worker:
-    image: ivorobioff/complex-worker
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./worker
     volumes:
       - /app/node_modules
       - ./worker:/app
@@ -38,7 +44,9 @@ services:
     depends_on:
       - redis
   nginx:
-    image: ivorobioff/complex-nginx
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
     restart: always
     ports:
       - '3000:80'
