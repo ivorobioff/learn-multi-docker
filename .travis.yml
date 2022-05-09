@@ -1,0 +1,19 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t ivorobioff/complex-client -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true ivorobioff/complex-client npm run test
+
+after_success:
+  - docker build -t ivorobioff/complex-client ./client
+  - docker build -t ivorobioff/complex-server ./server
+  - docker build -t ivorobioff/complex-worker ./worker
+  - docker build -t ivorobioff/complex-nginx ./nginx
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker push ivorobioff/complex-client
+  - docker push ivorobioff/complex-server
+  - docker push ivorobioff/complex-worker
+  - docker push ivorobioff/complex-nginx
