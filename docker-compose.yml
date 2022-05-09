@@ -2,9 +2,6 @@ version: '3'
 services:
   api:
     image: ivorobioff/complex-server
-    volumes:
-      - /app/node_modules
-      - ./server:/app
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
@@ -13,24 +10,13 @@ services:
       - PGDATABASE=${PGDATABASE}
       - PGPASSWORD=${PGPASSWORD}
       - PGPORT=${PGPORT}
-    depends_on:
-      - redis
-      - postgres
   client:
     image: ivorobioff/complex-client
-    volumes:
-      - /app/node_modules
-      - ./client:/app
   worker:
     image: ivorobioff/complex-worker
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-    depends_on:
-      - redis
   nginx:
     image: ivorobioff/complex-nginx
     restart: always
