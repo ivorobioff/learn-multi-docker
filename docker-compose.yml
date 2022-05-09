@@ -1,24 +1,18 @@
 version: '3'
 services:
-  postgres:
-    image: postgres:latest
-    environment:
-      - POSTGRES_PASSWORD=password
-  redis:
-    image: redis:latest
   api:
     image: ivorobioff/complex-server
     volumes:
       - /app/node_modules
       - ./server:/app
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=password
-      - PGPORT=5432
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - PGUSER=${PGUSER}
+      - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
+      - PGPASSWORD=${PGPASSWORD}
+      - PGPORT=${PGPORT}
     depends_on:
       - redis
       - postgres
@@ -33,8 +27,8 @@ services:
       - /app/node_modules
       - ./worker:/app
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
     depends_on:
       - redis
   nginx:

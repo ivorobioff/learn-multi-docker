@@ -17,3 +17,15 @@ after_success:
   - docker push ivorobioff/complex-server
   - docker push ivorobioff/complex-worker
   - docker push ivorobioff/complex-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: learn-multi-docker
+  env: Learnmultidocker-env
+  bucket_name: elasticbeanstalk-us-east-1-337737044543
+  bucket_path: learn-multi-docker
+  on:
+    branch: main
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
